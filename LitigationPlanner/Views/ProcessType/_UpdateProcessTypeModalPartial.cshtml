@@ -1,0 +1,30 @@
+﻿@model LitigationPlanner.MVC.Models.ProcessType.UpdateProcessTypeViewModel
+<!-- Update ProcessType Modal -->
+<div class="modal fade" id="updateProcessTypeModal-@Model.ProcessType.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <form asp-controller="ProcessType" asp-action="UpdateProcessType" method="post" role="form">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Update Process Type</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input asp-for="@Model.ProcessType.Id" hidden />
+
+                        <input asp-for="@Model.ProcessType.Title" class="form-control mt-3" aria-describedby="income" placeholder="Title" />
+                        <span asp-validation-for="@Model.ProcessType.Title" class="text-danger" style="font-size:small;"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="mint-btn btn btn-sm btn-primary" data-dismiss="modal">Close</button>
+                    <button class="mint-btn btn btn-sm btn-primary" type="submit">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

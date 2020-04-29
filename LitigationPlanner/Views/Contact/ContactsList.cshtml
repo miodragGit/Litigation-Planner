@@ -1,0 +1,89 @@
+﻿@model LitigationPlanner.MVC.Models.ContactsListViewModel
+
+@{
+    ViewData["Title"] = "Contacts";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!--Contacts List-->
+<div class="d-flex flex-fill flex-column align-content-center list-group overflow-auto">
+    <div class="row p-0 m-0">
+        <div class="col-md-12 d-flex flex-row p-2">
+            <h3 class="text-black-50">Contacts List</h3>
+            <!--Create Contacts Button-->
+            <button class="d-flex mint-btn btn btn-sm btn-primary ml-auto mr-3" data-toggle="modal" data-target="#createContactModal">
+                Create Contact
+            </button>
+
+            <!--Search Contacts Button-->
+            <button class="d-flex mint-btn btn btn-sm btn-primary mr-3" data-toggle="modal" data-target="#searchContactsModal">
+                Search Contacts
+            </button>
+
+            <!-- UndoSearch Contacts Button -->
+            <a class="mint-btn btn btn-sm btn-primary" asp-controller="Contact" asp-action="ContactsList">Undo Search</a>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead class="thead-light">
+            <tr class="text-center">
+                <th scope="col">Name</th>
+                <th scope="col">Telephone 1</th>
+                <th scope="col">Telephone 2</th>
+                <th scope="col">Address</th>
+                <th scope="col">Email</th>
+                <th scope="col">Legal Person</th>
+                <th scope="col">Profession</th>
+                <th scope="col">Company</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contact in Model.Contacts)
+            {
+                <tr class="text-center">
+                    <td>@contact.Name</td>
+                    <td>@contact.TelephoneNumber1</td>
+                    <td>@contact.TelephoneNumber2</td>
+                    <td>@contact.Address</td>
+                    <td>@contact.Email</td>
+                    <td>@contact.LegalOrNaturalPerson</td>
+                    <td>@contact.Profession</td>
+                    @if (contact.Company != null)
+                    {
+                        <td>@contact.Company.Title</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td>
+                        <!-- Update Company Button -->
+                        <button class="mint-btn btn btn-sm btn-primary ml-auto" data-toggle="modal" data-target="#updateContactModal-@contact.Id">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <!-- Delete Company Button -->
+                        <form class="ml-2" asp-controller="Contact" asp-action="DeleteContact" asp-route-id="@contact.Id" method="post" role="form">
+                            <button class="mint-btn btn btn-sm btn-primary" type="submit" onclick="return confirm('Are you sure you want to delete?');">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+                <!-- Update Company Modal -->
+                <partial name="_UpdateContactModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.UpdateContactViewModel { Contact = contact, Companies = Model.Companies }" />
+            }
+        </tbody>
+    </table>
+
+    <!-- Create Company Modal -->
+    <partial name="_CreateContactModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.CreateContactViewModel { Companies = Model.Companies }" />
+
+    <!-- Search Contact Modal -->
+    <partial name="_SearchContactsModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.Contact.SearchContactsViewModel { Companies = Model.Companies }" />
+</div>

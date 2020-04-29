@@ -1,0 +1,71 @@
+﻿@model LitigationPlanner.MVC.Models.Litigation.SearchLitigationsViewModel
+@using  LitigationPlanner.Data.Models.Enums
+<!-- Search Litigation Modal -->
+<form asp-controller="Litigation" asp-action="SearchLitigations" method="get" role="form">
+    <div class="modal fade" id="searchLitigationsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Search Litigations </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Date from:</label>
+                        <input asp-for="@Model.FromDateAndTime" class="form-control mb-1" placeholder="Date" />
+
+                        <label>Date to:</label>
+                        <input asp-for="@Model.ToDateAndTime" class="form-control" placeholder="Date" />
+
+                        <select class="form-control mt-2" asp-for="@Model.LocationId"
+                                asp-items="@(new SelectList(Model.Locations, "Id", "Title"))">
+                            <option disabled selected>Select location</option>
+                        </select>
+
+                        <select class="form-control mt-2" asp-for="@Model.Judge"
+                                asp-items="@(new SelectList(Model.Contacts, "Id", "Name"))">
+                            <option disabled selected>Select Judge</option>
+                        </select>
+
+                        <select asp-for="@Model.InstitutionType"
+                                asp-items="Html.GetEnumSelectList<InstitutionType>()" class="form-control mt-3" placeholder="Institution type">
+                            <option disabled selected>Select Institution type</option>
+                        </select>
+
+                        <input asp-for="@Model.ProcessIdentifier" class="form-control mt-3" placeholder="Process identifier" />
+
+                        <input asp-for="@Model.CourtroomNumber" class="form-control mt-3" type="text" placeholder="Courtroom number" />
+
+                        <select class="form-control mt-2" asp-for="@Model.Prosecutor"
+                                asp-items="@(new SelectList(Model.Contacts, "Id", "Name"))">
+                            <option disabled selected>Select Prosecutor</option>
+                        </select>
+
+                        <select class="form-control mt-2" asp-for="@Model.Defendant"
+                                asp-items="@(new SelectList(Model.Contacts, "Id", "Name"))">
+                            <option disabled selected>Select Defendant</option>
+                        </select>
+
+                        <select class="form-control mt-2" asp-for="@Model.ProcessType"
+                                asp-items="@(new SelectList(Model.ProcessTypes, "Id", "Title"))">
+                            <option disabled selected>Select Process Type</option>
+                        </select>
+
+                        <select class="form-control chosen-select mt-2 p-0" asp-for="@Model.UsersIds"
+                                asp-items="@(new SelectList(Model.Users, "Id", "UserName"))">
+                            <option disabled selected>Select Lawyers</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="mint-btn btn btn-sm btn-primary" data-dismiss="modal">Close</button>
+                    <button class="mint-btn btn btn-sm btn-primary" type="submit">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

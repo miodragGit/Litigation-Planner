@@ -1,0 +1,48 @@
+﻿@model LitigationPlanner.MVC.Models.UpdateContactViewModel
+<!-- Update Contact Modal -->
+<div class="modal fade" id="updateContactModal-@Model.Contact.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <form asp-controller="Contact" asp-action="UpdateContact" method="post" role="form">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Update Contact</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input asp-for="@Model.Contact.Id" hidden />
+
+                        <input asp-for="@Model.Contact.Name" class="form-control mt-3" aria-describedby="income" placeholder="Name" />
+                        <span asp-validation-for="@Model.Contact.Name" class="text-danger" style="font-size:small;"></span>
+
+                        <input asp-for="@Model.Contact.TelephoneNumber1" class="form-control mt-3" aria-describedby="income" placeholder="Telephone 1" />
+
+                        <input asp-for="@Model.Contact.TelephoneNumber2" class="form-control mt-3" aria-describedby="income" placeholder="Telephone 2" />
+
+                        <input asp-for="@Model.Contact.Address" class="form-control mt-3" aria-describedby="income" placeholder="Address" />
+
+                        <input asp-for="@Model.Contact.Email" class="form-control mt-3" aria-describedby="income" placeholder="Email" />
+
+                        <label class="mt-2">Is legal person:</label>
+                        <input asp-for="@Model.Contact.LegalOrNaturalPerson" class="form-control" aria-describedby="income" placeholder="Legal or natural person" />
+
+                        <input asp-for="@Model.Contact.Profession" class="form-control mt-3" aria-describedby="income" placeholder="Profession" />
+
+                        <select class="form-control mt-2" asp-for="Contact.CompanyId"
+                                asp-items="@(new SelectList(Model.Companies, "Id", "Title"))">
+                            <option disabled selected>Select Company</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="mint-btn btn btn-sm btn-primary" data-dismiss="modal">Close</button>
+                    <button class="mint-btn btn btn-sm btn-primary" type="submit">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

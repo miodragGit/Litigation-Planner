@@ -1,0 +1,97 @@
+﻿@model LitigationPlanner.MVC.Models.Litigation.LitigationsListViewModel
+@using LitigationPlanner.Data.Models.Enums
+
+@{
+    ViewData["Title"] = "Litigations";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!--Litigations List-->
+    <div class="d-flex flex-fill flex-column align-content-center list-group overflow-auto">
+        <div class="row p-0 m-0">
+            <div class="col-md-12 d-flex flex-row p-2">
+                <h3 class="text-black-50">Litigations List</h3>
+                <!--Order Litigation Button -->
+                <a class="mint-btn btn btn-sm btn-primary ml-auto mr-2" asp-controller="Litigation" asp-action="OrderByDateAscending" asp-route-isAscending=@true>By date ascending</a>
+                <a class="mint-btn btn btn-sm btn-primary mr-2" asp-controller="Litigation" asp-action="OrderByDateAscending" asp-route-isAscending=@false>By date descending</a>
+            </div>
+        </div>
+       
+
+        <table class="table">
+            <thead class="thead-light">
+                <tr class="text-center">
+                    <th scope="col">Date</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Judge</th>
+                    <th scope="col">Institution type</th>
+                    <th scope="col">Process identifier</th>
+                    <th scope="col">Courtroom number</th>
+                    <th scope="col">Prosecutor</th>
+                    <th scope="col">Defendant</th>
+                    <th scope="col">Process type</th>
+                    <th scope="col">Note</th>
+                    <th scope="col">Lawyers</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var litigation in Model.Litigations)
+                {
+                    <tr class="text-center">
+                        <td>@litigation.DateAndTime</td>
+                        <td>@litigation.Location.Title</td>
+                        @if (litigation.JudgeNavigation != null)
+                        {
+                            <td>@litigation.JudgeNavigation.Name</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        <!-- Enum cast -->
+                        @{ InstitutionType? institutionType = litigation.InstitutionType == null ? (InstitutionType?)null : (InstitutionType)litigation.InstitutionType; }
+
+                        <td>@institutionType</td>
+                        <td>@litigation.ProcessIdentifier</td>
+                        <td>@litigation.CourtroomNumber</td>
+                        @if (litigation.ProsecutorNavigation != null)
+                        {
+                            <td>@litigation.ProsecutorNavigation.Name</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        @if (litigation.DefendantNavigation != null)
+                        {
+                            <td>@litigation.DefendantNavigation.Name</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        @if (litigation.ProcessTypeNavigation != null)
+                        {
+                            <td>@litigation.ProcessTypeNavigation.Title</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        <td>@litigation.Note</td>
+                        <td>
+                            <!-- Preview Lawyers Button -->
+                            <button class="mint-btn btn btn-sm btn-primary ml-auto" data-toggle="modal" data-target="#previewLawyersModal" onclick="UsersListForLitigation(@litigation.Id)">
+                                Preview
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <!-- Preview Lawyers Modal -->
+        <partial name="_PreviewLawyersModalPartial.cshtml" />
+    </div>
+
+<script src="~/js/litigationsList.js"></script>

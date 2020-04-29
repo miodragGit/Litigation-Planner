@@ -1,0 +1,27 @@
+﻿@model LitigationPlanner.MVC.Models.ProcessType.SearchProcessTypesViewModel
+<!-- Search ProcessTypes Modal -->
+<form asp-controller="ProcessType" asp-action="SearchProcessTypes" method="get" role="form">
+    <div class="modal fade" id="searchProcessTypesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Search Process Types </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input asp-for="@Model.Title" class="form-control mt-3" placeholder="Name" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="mint-btn btn btn-sm btn-primary" data-dismiss="modal">Close</button>
+                    <button class="mint-btn btn btn-sm btn-primary" type="submit">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

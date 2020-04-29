@@ -1,0 +1,78 @@
+﻿@model LitigationPlanner.MVC.Models.Account.RolesListViewModel
+
+@{
+    ViewData["Title"] = "Roles";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!--Roles List-->
+<div class="d-flex flex-fill flex-column align-content-center list-group overflow-auto">
+    <div class="row p-0 m-0">
+        <div class="col-md-12 d-flex flex-row p-2">
+            <h3 class="text-black-50">Roles List</h3>
+
+            <!--Create Role Button-->
+            <button class="d-flex mint-btn btn btn-sm btn-primary ml-auto mr-3" data-toggle="modal" data-target="#createRoleModal">
+                Create Role
+            </button>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead class="thead-light">
+            <tr class="text-center">
+                <th scope="col">Title</th>
+                <th scope="col">Add user to role</th>
+                <th scope="col">Remove user from role</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var role in Model.Roles)
+            {
+                <tr class="text-center">
+                    <td>@role.Name</td>
+                    <td>
+                        <!-- Add user to role Button -->
+                        <button class="mint-btn btn btn-sm btn-primary ml-auto" data-toggle="modal" data-target="#addUserToRoleModal-@role.Id">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <!-- Remove user from role Button -->
+                        <button class="mint-btn btn btn-sm btn-primary ml-auto" data-toggle="modal" data-target="#removeUserFromRoleModal-@role.Id">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <!-- Edit Role Button -->
+                        <button class="mint-btn btn btn-sm btn-primary ml-auto" data-toggle="modal" data-target="#updateRoleModal-@role.Id">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <!-- Delete Role Button -->
+                        <form class="ml-2" asp-controller="Account" asp-action="DeleteRole" asp-route-id="@role.Id" method="post" role="form">
+                            <button class="mint-btn btn btn-sm btn-primary" type="submit" onclick="return confirm('Are you sure you want to delete?');">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+                <!-- Edit Role Modal -->
+                <partial name="_UpdateRoleModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.Account.UpdateRoleViewModel { Role = role }" />
+
+                <!-- Add user to role Modal -->
+                <partial name="_AddUserToRoleModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.Account.AddUserToRoleViewModel { Role = role, Users = Model.Users }" />
+
+                <!-- Remove user from role Modal -->
+                <partial name="_RemoveUserFromRoleModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.Account.RemoveUserFromRoleViewModel { Role = role, Users = Model.Users }" />
+            }
+        </tbody>
+    </table>
+
+    <!-- Create Role Modal -->
+    <partial name="_CreateRoleModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.Account.CreateRoleViewModel()" />
+</div>

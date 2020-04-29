@@ -1,0 +1,31 @@
+﻿@model LitigationPlanner.MVC.Models.Account.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="332807183695-l80pct02nst4ja065i3cpnmn6b53bk4n.apps.googleusercontent.com">
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-center">
+            <form asp-controller="Account" asp-action="Login" method="post" role="form" class="col-md-6">
+                <div class="form-group">
+                    <input asp-for="@Model.UserName" class="form-control" placeholder="Username" />
+                    <input asp-for="@Model.Password" class="form-control mt-2" placeholder="Password" />
+                    <button class="mint-btn btn btn-block btn-primary mt-2" type="submit"> Login </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+

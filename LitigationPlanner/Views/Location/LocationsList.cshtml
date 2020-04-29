@@ -1,0 +1,70 @@
+﻿@model LitigationPlanner.MVC.Models.Location.LocationsListViewModel
+
+@{
+    ViewData["Title"] = "Locations";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!--Locations List-->
+<div class="d-flex flex-fill flex-column align-content-center list-group overflow-auto">
+    <div class="row p-0 m-0">
+        <div class="col-md-12 d-flex flex-row p-2">
+            <h3 class="text-black-50">Locations List</h3>
+
+            <!--Create Location Button-->
+            <button class="d-flex mint-btn btn btn-sm btn-primary ml-auto mr-3" data-toggle="modal" data-target="#createLocationModal">
+                Create Location
+            </button>
+
+            <!--Search Locations Button-->
+            <button class="d-flex mint-btn btn btn-sm btn-primary mr-3" data-toggle="modal" data-target="#searchLocationsModal">
+                Search Locations
+            </button>
+
+            <!-- UndoSearch Locations Button -->
+            <a class="mint-btn btn btn-sm btn-primary" asp-controller="Location" asp-action="LocationsList">Undo Search</a>
+
+        </div>
+    </div>
+
+    <table class="table">
+        <thead class="thead-light">
+            <tr class="text-center">
+                <th scope="col">Title</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var location in Model.Locations)
+            {
+                <tr class="text-center">
+                    <td>@location.Title</td>
+                    <td>
+                        <!-- Update Location Button -->
+                        <button class="mint-btn btn btn-sm btn-primary ml-auto" data-toggle="modal" data-target="#updateLocationModal-@location.Id">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <!-- Delete Location Button -->
+                        <form class="ml-2" asp-controller="Location" asp-action="DeleteLocation" asp-route-id="@location.Id" method="post" role="form">
+                            <button class="mint-btn btn btn-sm btn-primary" type="submit" onclick="return confirm('Are you sure you want to delete?');">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+                <!-- Update Location Modal -->
+                <partial name="_UpdateLocationModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.Location.UpdateLocationViewModel { Location = location }" />
+            }
+        </tbody>
+    </table>
+
+    <!-- Create Location Modal -->
+    <partial name="_CreateLocationModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.Location.CreateLocationViewModel()" />
+
+    <!-- Search Location Modal -->
+    <partial name="_SearchLocationsModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.Location.SearchLocationsViewModel()" />
+</div>

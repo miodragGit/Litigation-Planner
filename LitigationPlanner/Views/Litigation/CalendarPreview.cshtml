@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Calendar";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link href="~/css/calendar.css" rel="stylesheet" />
+
+
+<div class="wrapper mt-2">
+    <div id="calendarContainer"></div>
+    <div id="organizerContainer" style="margin-left: 8px; visibility:hidden; position:fixed; z-index:-1;"></div>
+</div>
+
+<div class="col-md-12 text-center mt-2">
+    <h5 class="text-black-50 m-2">Litigations for current month are marked with red color.</h5>
+</div>
+
+<script src="~/js/calendar.js"></script>
+

@@ -1,0 +1,73 @@
+﻿@model LitigationPlanner.MVC.Models.CompaniesListViewModel
+
+@{
+    ViewData["Title"] = "Companies";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<!--Companies List-->
+<div class="d-flex flex-fill flex-column align-content-center list-group overflow-auto">
+    <div class="row p-0 m-0">
+        <div class="col-md-12 d-flex flex-row p-2">
+            <h3 class="text-black-50">Companies List</h3>
+
+            <!--Create Company Button-->
+            <button class="d-flex mint-btn btn btn-sm btn-primary ml-auto mr-3" data-toggle="modal" data-target="#createCompanyModal">
+                Create Company
+            </button>
+
+            <!--Search Companies Button-->
+            <button class="d-flex mint-btn btn btn-sm btn-primary mr-3" data-toggle="modal" data-target="#searchCompaniesModal">
+                Search Companies
+            </button>
+
+            <!-- UndoSearch Company Button -->
+            <a class="mint-btn btn btn-sm btn-primary" asp-controller="Company" asp-action="CompaniesList">Undo Search</a>
+
+        </div>
+    </div>
+
+    <table class="table">
+        <thead class="thead-light">
+            <tr class="text-center">
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var company in Model.Companies)
+            {
+                <tr class="text-center">
+                    <td>@company.Title</td>
+                    <td>@company.Address</td>
+                    <td>
+                        <!-- Edit Company Button -->
+                        <button class="mint-btn btn btn-sm btn-primary ml-auto" data-toggle="modal" data-target="#updateCompanyModal-@company.Id">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <!-- Delete Company Button -->
+                        <form class="ml-2" asp-controller="Company" asp-action="DeleteCompany" asp-route-id="@company.Id" method="post" role="form">
+                            <button class="mint-btn btn btn-sm btn-primary" type="submit" onclick="return confirm('Are you sure you want to delete?');">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+                <!-- Edit Company Modal -->
+                <partial name="_UpdateCompanyModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.UpdateCompanyViewModel { Company = company }" />
+            }
+        </tbody>
+    </table>
+
+    <!-- Create Company Modal -->
+    <partial name="_CreateCompanyModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.CreateCompanyViewModel()" />
+
+    <!-- Search Company Modal -->
+    <partial name="_SearchCompaniesModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.Company.SearchCompaniesViewModel()" />
+</div>

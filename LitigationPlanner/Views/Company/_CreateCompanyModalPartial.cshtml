@@ -1,0 +1,33 @@
+﻿@model LitigationPlanner.MVC.Models.CreateCompanyViewModel
+<!-- Create Company Modal -->
+<form asp-controller="Company" asp-action="CreateCompany" method="post" role="form">
+    <div class="modal fade" id="createCompanyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Create Company </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+
+                        <input asp-for="@Model.Title" class="form-control mt-3" aria-describedby="income" placeholder="Name" />
+                        <span asp-validation-for="@Model.Title" class="text-danger" style="font-size:small;"></span>
+
+                        <input asp-for="@Model.Address" class="form-control mt-3" aria-describedby="income" placeholder="Address" />
+                        <span asp-validation-for="@Model.Address" class="text-danger" style="font-size:small;"></span>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="mint-btn btn btn-sm btn-primary" data-dismiss="modal">Close</button>
+                    <button class="mint-btn btn btn-sm btn-primary" type="submit">
+                        Create
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

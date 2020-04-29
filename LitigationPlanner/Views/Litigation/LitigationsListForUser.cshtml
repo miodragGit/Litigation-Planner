@@ -1,0 +1,149 @@
+﻿@model LitigationPlanner.MVC.Models.Litigation.LitigationsListViewModel
+@using LitigationPlanner.Data.Models.Enums
+
+@{
+    ViewData["Title"] = "Litigations";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!--Litigations List-->
+<div class="d-flex flex-fill flex-column align-content-center list-group overflow-auto">
+
+    <div class="row p-0 m-0">
+        <div class="col-md-12 d-flex flex-row p-2">
+            <h3 class="text-black-50">Litigations List</h3>
+            <!--Order Litigation Button -->
+            <a class="mint-btn btn btn-sm btn-primary ml-auto mr-2" asp-controller="Litigation" asp-action="OrderByDateAscending" asp-route-isAscending=@true>By date ascending</a>
+            <a class="mint-btn btn btn-sm btn-primary mr-2" asp-controller="Litigation" asp-action="OrderByDateAscending" asp-route-isAscending=@false>By date descending</a>
+
+            <!--Create Litigation Button-->
+            <button class="d-flex mint-btn btn btn-sm btn-primary mr-2" data-toggle="modal" data-target="#createLitigationModal">
+                Create Litigation
+            </button>
+
+            <!--Search Litigations Button-->
+            <button class="d-flex mint-btn btn btn-sm btn-primary mr-2" data-toggle="modal" data-target="#searchLitigationsModal">
+                Search Litigations
+            </button>
+
+            <!-- UndoSearch Litigation Button -->
+            <a class="mint-btn btn btn-sm btn-primary mr-2" asp-controller="Litigation" asp-action="LitigationsListForUser">Undo Search</a>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Location</th>
+                <th scope="col">Judge</th>
+                <th scope="col">Institution type</th>
+                <th scope="col">Process identifier</th>
+                <th scope="col">Courtroom number</th>
+                <th scope="col">Prosecutor</th>
+                <th scope="col">Defendant</th>
+                <th scope="col">Process type</th>
+                <th scope="col">Note</th>
+                <th scope="col">Lawyers</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var litigation in Model.Litigations)
+            {
+                <tr class="text-center">
+                    <td>@litigation.DateAndTime</td>
+                    <td>@litigation.Location.Title</td>
+                    @if (litigation.JudgeNavigation != null)
+                    {
+                        <td>@litigation.JudgeNavigation.Name</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+
+                    <!-- Enum cast -->
+                    @{ InstitutionType? institutionType = litigation.InstitutionType == null ? (InstitutionType?)null : (InstitutionType)litigation.InstitutionType; }
+
+                    <td>@institutionType</td>
+                    <td>@litigation.ProcessIdentifier</td>
+                    <td>@litigation.CourtroomNumber</td>
+                    @if (litigation.ProsecutorNavigation != null)
+                    {
+                        <td>@litigation.ProsecutorNavigation.Name</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    @if (litigation.DefendantNavigation != null)
+                    {
+                        <td>@litigation.DefendantNavigation.Name</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    @if (litigation.ProcessTypeNavigation != null)
+                    {
+                        <td>@litigation.ProcessTypeNavigation.Title</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td>@litigation.Note</td>
+                    <td>
+                        <!-- Preview Lawyers Button -->
+                        <button class="mint-btn btn btn-sm btn-primary ml-auto" data-toggle="modal" data-target="#previewLawyersModal" onclick="UsersListForLitigation(@litigation.Id)">
+                            Preview
+                        </button>
+                    </td>
+
+                    <td>
+
+                        <!-- Update Litigation Button -->
+                        <button class="mint-btn btn btn-sm btn-primary ml-auto" data-toggle="modal" data-target="#updateLitigationModal-@litigation.Id">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <!-- Delete Litigation Button -->
+                        <form class="ml-2" asp-controller="Litigation" asp-action="DeleteLitigation" asp-route-id="@litigation.Id" method="post" role="form">
+                            <button class="mint-btn btn btn-sm btn-primary" type="submit" onclick="return confirm('Are you sure you want to delete?');">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+                <!-- Update Litigation Modal -->
+                <partial name="_UpdateLitigationModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.Litigation.UpdateLitigationViewModel { Litigation = litigation,
+                                                                                                                                                    Contacts = Model.Contacts,
+                                                                                                                                                    Locations = Model.Locations,
+                                                                                                                                                    ProcessTypes = Model.ProcessTypes,
+                                                                                                                                                    Users = Model.Users }" />
+            }
+        </tbody>
+    </table>
+
+    <!-- Create Litigation Modal -->
+    <partial name="_CreateLitigationModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.Litigation.CreateLitigationViewModel { Contacts = Model.Contacts,
+                                                                                                                                        Locations = Model.Locations,
+                                                                                                                                        ProcessTypes = Model.ProcessTypes,
+                                                                                                                                        Users = Model.Users}" />
+
+    <!-- Search Litigations Modal -->
+    <partial name="_SearchLitigationsModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.Litigation.SearchLitigationsViewModel { Contacts = Model.Contacts,
+                                                                                                                                        Locations = Model.Locations,
+                                                                                                                                        ProcessTypes = Model.ProcessTypes,
+                                                                                                                                        Users = Model.Users}" />
+
+    <!-- Preview Lawyers Modal -->
+    <partial name="_PreviewLawyersModalPartial.cshtml" />
+
+</div>
+
+<script src="~/js/litigationsList.js"></script>

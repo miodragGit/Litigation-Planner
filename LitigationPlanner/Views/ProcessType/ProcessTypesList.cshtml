@@ -1,0 +1,70 @@
+﻿@model LitigationPlanner.MVC.Models.ProcessType.ProcessTypesListViewModel
+
+@{
+    ViewData["Title"] = "ProcessTypes";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!--ProcessTypes List-->
+<div class="d-flex flex-fill flex-column align-content-center list-group overflow-auto">
+    <div class="row p-0 m-0">
+        <div class="col-md-12 d-flex flex-row p-2">
+            <h3 class="text-black-50">Process Types List</h3>
+
+            <!--Create ProcessType Button-->
+            <button class="d-flex mint-btn btn btn-sm btn-primary ml-auto mr-3" data-toggle="modal" data-target="#createProcessTypeModal">
+                Create Process Type
+            </button>
+
+            <!--Search ProcessTypes Button-->
+            <button class="d-flex mint-btn btn btn-sm btn-primary mr-3" data-toggle="modal" data-target="#searchProcessTypesModal">
+                Search ProcessTypes
+            </button>
+
+            <!-- UndoSearch ProcessTypes Button -->
+            <a class="mint-btn btn btn-sm btn-primary" asp-controller="ProcessType" asp-action="ProcessTypesList">Undo Search</a>
+
+        </div>
+    </div>
+
+    <table class="table">
+        <thead class="thead-light">
+            <tr class="text-center">
+                <th scope="col">Title</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var processType in Model.ProcessTypes)
+            {
+                <tr class="text-center">
+                    <td>@processType.Title</td>
+                    <td>
+                        <!-- Update ProcessType Button -->
+                        <button class="mint-btn btn btn-sm btn-primary ml-auto" data-toggle="modal" data-target="#updateProcessTypeModal-@processType.Id">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <!-- Delete ProcessType Button -->
+                        <form class="ml-2" asp-controller="ProcessType" asp-action="DeleteProcessType" asp-route-id="@processType.Id" method="post" role="form">
+                            <button class="mint-btn btn btn-sm btn-primary" type="submit" onclick="return confirm('Are you sure you want to delete?');">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+                <!-- Update ProcessType Modal -->
+                <partial name="_UpdateProcessTypeModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.ProcessType.UpdateProcessTypeViewModel { ProcessType = processType }" />
+            }
+        </tbody>
+    </table>
+
+    <!-- Create ProcessType Modal -->
+    <partial name="_CreateProcessTypeModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.ProcessType.CreateProcessTypeViewModel()" />
+
+    <!-- Search ProcessType Modal -->
+    <partial name="_SearchProcessTypesModalPartial.cshtml" model="new LitigationPlanner.MVC.Models.ProcessType.SearchProcessTypesViewModel()" />
+</div>

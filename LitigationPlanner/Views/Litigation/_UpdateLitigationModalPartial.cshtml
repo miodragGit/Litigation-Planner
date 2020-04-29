@@ -1,0 +1,74 @@
+﻿@model LitigationPlanner.MVC.Models.Litigation.UpdateLitigationViewModel
+@using  LitigationPlanner.Data.Models.Enums
+
+<!-- Update Litigation Modal -->
+<div class="modal fade" id="updateLitigationModal-@Model.Litigation.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <form asp-controller="Litigation" asp-action="UpdateLitigation" method="post" role="form">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Update Litigation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input asp-for="@Model.Litigation.Id" hidden />
+
+                        <input asp-for="@Model.Litigation.DateAndTime" class="form-control mt-3" placeholder="Date" />
+                        <span asp-validation-for="@Model.Litigation.DateAndTime" class="text-danger" style="font-size:small;"></span>
+
+                        <select class="form-control mt-2" asp-for="Litigation.LocationId"
+                                asp-items="@(new SelectList(Model.Locations, "Id", "Title"))">
+                            <option disabled selected>Select location</option>
+                        </select>
+                        <span asp-validation-for="@Model.Litigation.LocationId" class="text-danger" style="font-size:small;"></span>
+
+                        <select class="form-control mt-2" asp-for="Litigation.Judge"
+                                asp-items="@(new SelectList(Model.Contacts, "Id", "Name"))">
+                            <option disabled selected>Select Judge</option>
+                        </select>
+
+                        <select asp-for="@Model.Litigation.InstitutionType"
+                                asp-items="Html.GetEnumSelectList<InstitutionType>()" class="form-control mt-3" placeholder="Institution type">
+                            <option disabled selected>Select Institution type</option>
+                        </select>
+
+                        <input asp-for="@Model.Litigation.ProcessIdentifier" class="form-control mt-3" placeholder="Process identifier" />
+
+                        <input asp-for="@Model.Litigation.CourtroomNumber" class="form-control mt-3" placeholder="Courtroom number" />
+
+                        <select class="form-control mt-2" asp-for="Litigation.Prosecutor"
+                                asp-items="@(new SelectList(Model.Contacts, "Id", "Name"))">
+                            <option disabled selected>Select Prosecutor</option>
+                        </select>
+
+                        <select class="form-control mt-2" asp-for="Litigation.Defendant"
+                                asp-items="@(new SelectList(Model.Contacts, "Id", "Name"))">
+                            <option disabled selected>Select Defendant</option>
+                        </select>
+
+                        <select class="form-control mt-2" asp-for="Litigation.ProcessType"
+                                asp-items="@(new SelectList(Model.ProcessTypes, "Id", "Title"))">
+                            <option disabled selected>Select Process Type</option>
+                        </select>
+
+                        <input asp-for="@Model.Litigation.Note" class="form-control mt-3" placeholder="Note" />
+
+                        <select class="form-control chosen-select mt-2" asp-for="@Model.UsersIds"
+                                asp-items="@(new SelectList(Model.Users, "Id", "UserName"))">
+                        </select>
+                        <span asp-validation-for="@Model.UsersIds" class="text-danger" style="font-size:small;"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="mint-btn btn btn-sm btn-primary" data-dismiss="modal">Close</button>
+                    <button class="mint-btn btn btn-sm btn-primary" type="submit">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

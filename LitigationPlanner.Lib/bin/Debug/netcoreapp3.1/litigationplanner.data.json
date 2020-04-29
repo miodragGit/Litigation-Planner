@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=MIODRAG-W10\\MYSQLEXPRESS;Database=LitigationPlannerDB;Trusted_Connection=True;"
+  }
+}
